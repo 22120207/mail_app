@@ -1,8 +1,18 @@
 pipeline {
-    agent any
+    agent {
+        label '22120207'
+    }
+
+    environment {
+        PROJECT_NAME = 'mail_app'
+        PROJECT_PATH = "${WORKSPACE}/${PROJECT_NAME}"
+        REGISTRY_NAME = "tienminhktvn2"
+        IMAGE_VERSION =  "${REGISTRY_NAME}/${PROJECT_NAME}_${JOB_NAME}_${BUILD_ID}_#${BUILD_NUMBER}"
+        GIT_URL = 'https://github.com/22120207/mail_app.git'
+    }
 
     stages {
-        stage('Hello') {
+        stage('Checkout') {
             steps {
                 sh "git clone ${GIT_URL} ${PROJECT_PATH}"
             }
