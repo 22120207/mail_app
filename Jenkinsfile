@@ -14,6 +14,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
+                cd "cd /home/jenkins/workspace/22120207"
                 sh "git clone ${GIT_URL} ${PROJECT_PATH}"
             }
         }
