@@ -5,7 +5,7 @@ pipeline {
 
     environment {
         PROJECT_NAME = 'mail_app'
-        PROJECT_PATH = "${WORKSPACE}/${PROJECT_NAME}"
+        PROJECT_PATH = "${WORKSPACE}"
         REGISTRY_NAME = "tienminhktvn2"
         IMAGE_VERSION =  "${REGISTRY_NAME}/${PROJECT_NAME}_${JOB_NAME}_${BUILD_ID}"
         GIT_URL = 'https://github.com/22120207/mail_app.git'
@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sh "git clone ${GIT_URL} ${PROJECT_PATH}"
+                sh "echo ${PROJECT_PATH}"
             }
         }
 
