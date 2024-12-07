@@ -3,7 +3,7 @@ pipeline {
         label '22120207'
     }
 
-    evironment {
+    environment {
         PROJECT_NAME = 'mail_app'
         PROJECT_PATH = "${WORKSPACE}/${PROJECT_NAME}"
         REGISTRY_NAME = "tienminhktvn2"
