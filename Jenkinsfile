@@ -14,11 +14,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    // Add the workspace to safe directories
-                    sh "git config --global --add safe.directory ${WORKSPACE}"
-                }
-                // Clone the repository
                 sh "git clone ${GIT_URL} ${PROJECT_PATH}"
             }
         }
@@ -26,7 +21,6 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    // Build the Docker image
                     sh "docker build -t ${IMAGE_VERSION} ${PROJECT_PATH}"
                 }
             }
@@ -36,7 +30,6 @@ pipeline {
             steps {
                 script {
                     echo "Pushing image ${IMAGE_VERSION} to ${REGISTRY_NAME} registry..."
-                    // Add Docker push command if needed
                 }
             }
         }
@@ -44,7 +37,6 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // Deploy the Docker container
                     sh "docker run --rm -dp 3000:3000 --name ${PROJECT_NAME} ${IMAGE_VERSION}"
                 }
             }
