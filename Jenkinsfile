@@ -10,7 +10,7 @@ pipeline {
         USERNAME = '22120207'
         REGISTRY_NAME = "tienminhktvn2"
         DOCKERHUB_CREDENTIALS = credentials('tienminhktvn2-dockerhub')
-        IMAGE_VERSION =  "${REGISTRY_NAME}/${PROJECT_NAME}_${JOB_NAME}_${BUILD_ID}:${BUILD_NUMBER}"
+        IMAGE_VERSION =  "${REGISTRY_NAME}/${PROJECT_NAME}_${JOB_NAME}:${BUILD_ID}"
         GIT_URL = "https://github.com/${USERNAME}/${PROJECT_NAME}.git"
     }
 
