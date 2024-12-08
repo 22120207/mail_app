@@ -33,7 +33,7 @@ pipeline {
         stage('Login') {
             steps {
                 script {
-                    sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdir"
+                    sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
                 }
             }
         }
@@ -41,7 +41,7 @@ pipeline {
         stage('Push to Registry') {
             steps {
                 script {
-                    sh ""
+                    sh "docker push ${IMAGE_VERSION}"
                 }
             }
         }
