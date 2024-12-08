@@ -6,9 +6,12 @@ pipeline {
     environment {
         PROJECT_NAME = 'mail_app'
         PROJECT_PATH = "${WORKSPACE}"
+        PROJECT_PORT = '3000'
+        USERNAME = '22120207'
         REGISTRY_NAME = "tienminhktvn2"
-        IMAGE_VERSION =  "${REGISTRY_NAME}/${PROJECT_NAME}_${JOB_NAME}_${BUILD_ID}"
-        GIT_URL = 'https://github.com/22120207/mail_app.git'
+        DOCKERHUB_CREDENTIALS = credentials('tienminhktvn2-dockerhub')
+        IMAGE_VERSION =  "${REGISTRY_NAME}/${PROJECT_NAME}_${JOB_NAME}_${BUILD_ID}:${BUILD_NUMBER}"
+        GIT_URL = "https://github.com/${USERNAME}/${PROJECT_NAME}.git"
     }
 
     stages {
@@ -21,7 +24,16 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    sh "docker build -t ${IMAGE_VERSION} ${PROJECT_PATH}"
+                    sh "cd ${PROJECT_PATH}"
+                    sh "docker build -t ${IMAGE_VERSION} ."
+                }
+            }
+        }
+
+        stage('Login') {
+            steps {
+                script {
+                    sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdir"
                 }
             }
         }
@@ -29,7 +41,7 @@ pipeline {
         stage('Push to Registry') {
             steps {
                 script {
-                    echo "Pushing image ${IMAGE_VERSION} to ${REGISTRY_NAME} registry..."
+                    sh ""
                 }
             }
         }
@@ -37,9 +49,15 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh "docker run --rm -dp 3000:3000 --name ${PROJECT_NAME} ${IMAGE_VERSION}"
+                    sh "docker rm -f ${PROJECT_NAME}"
+                    sh "docker run --rm -dp ${PROJECT_PORT}:${PROJECT_PORT} --name ${PROJECT_NAME} ${IMAGE_VERSION}"
                 }
             }
+        }
+    }
+    post {
+        always {
+            sh 'docker logout'
         }
     }
 }
